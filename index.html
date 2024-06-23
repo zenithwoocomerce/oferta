@@ -1,0 +1,2712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Woocomerce + ZenithPay </title>
+
+    <meta name="author" content="AT" />
+
+    <!-- Font Awesome if you need it
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <!--Replace with your tailwind.css once created-->
+    <link
+      href="https://unpkg.com/@tailwindcss/custom-forms/dist/custom-forms.min.css"
+      rel="stylesheet"
+    />
+    <!--Tailwind Custom Forms - use to standardise form fields - https://github.com/tailwindcss/custom-forms-->
+
+    <style>
+      @import url("https://rsms.me/inter/inter.css");
+      html {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+          "Noto Color Emoji";
+      }
+
+      .gradient {
+        background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
+      }
+
+      button,
+      .gradient2 {
+        background-color: #f39f86;
+        background-image: linear-gradient(315deg, #f39f86 0%, #f9d976 74%);
+      }
+
+      /* Browser mockup code
+ * Contribute: https://gist.github.com/jarthod/8719db9fef8deb937f4f
+ * Live example: https://updown.io
+ */
+
+      .browser-mockup {
+        border-top: 2em solid rgba(230, 230, 230, 0.7);
+        position: relative;
+        height: 100%;
+      }
+
+      .browser-mockup:before {
+        display: block;
+        position: absolute;
+        content: "";
+        top: -1.25em;
+        left: 1em;
+        width: 0.5em;
+        height: 0.5em;
+        border-radius: 50%;
+        background-color: #f44;
+        box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
+      }
+
+      .browser-mockup > * {
+        display: block;
+      }
+
+      /* Custom code for the demo */
+    </style>
+  </head>
+  <style rel='preload'>
+    .eye-lid {
+      background-color: rgb(0, 0, 0);
+      border-radius: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 9px 0 2px rgba(0, 0, 0, 0.2);
+      width: 150px;
+      height: 150px;
+      position:absolute;
+      z-index:99
+    }
+    
+    .eye {
+      background-color: #fffcf4;
+      border-radius: 50%;
+      transform: translate3d(0, 0, 0) rotate(90deg);
+      width: 120px;
+      height: 150px;
+      animation: eye 6s infinite;
+      z-index:99;
+    }
+    
+    
+    @keyframes eye {
+      12%,
+      25% {
+        width: 0px;
+        height: 120px;
+        
+      }
+      
+      30% {
+        width: 120px;
+        height: 120px;
+      }
+    
+      37%, 
+      50% {
+        width: 85px;
+        height: 130px;
+      }
+    
+      63%, 
+      75% {
+        width: 100px;
+        height: 103px;
+      }
+    
+      87% {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    .cornea {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #673ab7;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: eye-color 6s infinite;
+    }
+    
+    @keyframes eye-color {
+    0%  {
+        opacity:1
+      }
+        6%  {
+        opacity:0
+      }
+        27.9%{
+      opacity:0
+      
+    }
+         28%{
+          opacity:1;
+    
+      }
+      
+       100%{
+          opacity:1;
+      }
+    
+    }
+    
+    .cornea::after {
+      content:'';
+      position: fixed;
+      top: 60%;
+      left: 20%;
+      border-radius: 50%;
+      background-color: #fffcf4;
+      width: 20px;
+      height: 20px;
+      z-index:-1;
+      animation: eye-color 6s infinite;
+      transition:none;
+      display:block
+    }
+    
+    .eye-move{
+      position: absolute;
+        top: 50%;
+        left: 50%;
+      animation: eye-move 6s alternate infinite;
+      
+    }
+    
+    @keyframes eye-move { 
+      0% {
+        top:50%;
+      }
+      40% {
+        top:48%; 
+      }
+      50% {
+        top:40%; 
+      }
+      60% {
+        top:48%; 
+      }
+      100% {
+        top:60%; 
+      }
+    }
+    
+    .cornea::before {
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      content:'';
+      position: fixed;
+      border-radius: 50%;
+      background-color: #000;
+      width: 60%;
+      height: 60%;
+      z-index:-1;
+      transition:none;
+      display:block;
+        animation: eye-color 6s infinite;
+    }
+    
+    .preloader {
+      position: fixed;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 99999;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-width:100vw;
+      min-height:100vh;
+      /* Safari */
+    }
+    
+    .preloader span {
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-top: 15px;
+    }
+    </style>
+      <!-- Preloader -->
+      <div class="preloader scroll-hidden" >
+             <div class="eye-lid" style="
+        transform: translateY(-25%);
+    ">
+        <div class="eye">
+          <div class="eye-move">
+          <div class="cornea">
+         
+          </div>
+          </div>
+        </div>
+              </div> 
+      
+            <span style="
+        position: absolute;
+        color: #fff !important;
+        font-size: 23px;
+        font-weight: 700;
+        transform: translateY(10vh);
+        z-index: 999;
+        font-family:sans-serif;
+    ">carregando...</span>
+        </div>
+  <body class="gradient leading-relaxed tracking-wide flex flex-col font-medium" >
+    <!--Nav-->
+    <nav id="header" class="w-full z-30 top-0 text-white py-1 lg:py-6 px-10">
+      <div
+        class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-2 lg:py-6"
+      >
+        <div class="pl-4 flex items-center">
+          <a
+            class="text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+            href="#"
+          >      
+            <svg   class="h-6 w-6 inline-block fill-current text-yellow-700"xmlns="http://www.w3.org/2000/svg" width="64" height="44" viewBox="0 0 64 44" fill="none"><path d="M18.7408 11.3708L0 44H8.60504L18.658 26.0787L28.0491 44H37.5643L18.7408 11.3708Z" fill="white"></path><path d="M37.7298 21.3408L33.0136 29.3333L41.1635 44H50.8028L37.7298 21.3408Z" fill="white"></path><path d="M50.927 21.3408L46.2107 29.3333L54.3607 44H64L50.927 21.3408Z" fill="white"></path><path d="M38.6399 11.4944H25.3601L32.0207 0L38.6399 11.4944Z" fill="white"></path></svg>
+            ZenithPay + WooCommerce 
+          </a>
+        </div>
+
+       
+    </nav>
+
+    <div class="container mx-auto h-full px-0 md:px-10">
+      <div class="text-center px-3 lg:px-0">
+        <h1
+          class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-gray-800 leading-tight"
+        >
+          Ficou fácil integrar a ZenithPay com Woocomerce!
+        </h1>
+        <p
+          class="leading-normal text-gray-800 text-base md:text-xl lg:text-2xl mb-8"
+        >
+          Ofereça integração nativa de pagamentos de sua Gateway para seus lojistas que possuem woocomerce, de maneira rápida e prática! Veja abaixo um exemplo:
+        </p>
+
+     
+      </div>
+
+      <div class="flex items-center justify-center w-full mx-auto content-end px-1">
+        <div
+          class="browser-mockup px-6 pb-6 justify-center flex flex-wrap flex-1 m-0 max-w-2xl md:m-12 bg-white w-1/2 rounded shadow-xl"
+        ><div class="wrapper" id="app">
+    <div class="card-form">
+        <div class="card-list">
+            <div class="card-item" id="card-item">
+                <div class="card-item__side -front">
+                    <div class="card-item__focus" id="focusElement"></div>
+                    <div class="card-item__cover">
+                        <img class="card-item__bg">
+                    </div>
+                    <div class="card-item__wrapper">
+                        <div class="card-item__top">
+                            <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                            <div class="card-item__type">
+                                <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                            </div>
+                        </div>
+                        <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                            #### #### #### ####
+                        </span>
+                        <div class="card-item__content">
+                            <span for="card_name" style='padding-top:0px !important'class="card-item__info" id="cardNameLabel">
+                                <div class="card-item__holder" >Nome Titular</div>
+                                <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                            </span>
+                            <div class="card-item__date" style='padding-top:0px !important' id="cardDate">
+                                <span for="cardMonth" style="
+    padding-bottom: 0px !important;
+" class="card-item__dateTitle">Expiração</span>
+                                <span for="cardMonth" class="card-item__dateItem">
+                                    <span id="cardMonthDisplay">MM</span>
+                                </span>
+                                /
+                                <span for="cardYear" class="card-item__dateItem">
+                                    <span id="cardYearDisplay">AA</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-item__side -back " id="cardBack">
+                    <div class="card-item__cover">
+                        <img class="card-item__bg card-item__bg_back">
+                    </div>
+                    <div class="card-item__band"></div>
+                    <div class="card-item__cvv">
+                        <div class="card-item__cvvTitle">CVV</div>
+                        <div class="card-item__cvvBand" id="cardCvvDisplay">
+                            <!-- CVV will be updated here -->
+                        </div>
+                        <div class="card-item__type">
+                            <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fieldset>
+    <p class="form-row">
+        <label for="card_number">
+            Número do Cartão
+            <span class="required">*</span>
+        </label>
+        <input id="card_number" name="card_number"
+            class="input-text card-input__input wc-credit-card-form-card-number"
+            type="text" maxlength="19" autocomplete="off"
+            placeholder="•••• •••• •••• ••••"
+            style="font-size: 1.0em; padding: 8px;" />
+    </p>
+
+    <div class="clear"></div>
+
+    <p class="form-row form-row-first">
+        <label for="card_cpf">
+            CPF do Titular
+            <span class="required">*</span>
+        </label>
+        <input id="card_cpf" name="card_cpf"
+            class="card-input__input input-text zenithpay-credit-card-form-card-cpf"
+            type="tel" autocomplete="off" maxlength="14"
+            placeholder="CPF do Titular"
+            style="font-size: 1.0em; padding: 8px;" />
+    </p>
+
+    <p class="form-row form-row-last">
+        <label for="card_name">
+            Nome Completo do Titular
+            <span class="required">*</span>
+        </label>
+        <input id="card_name" name="card_name"
+            onkeyup="validateName(this)"
+            class="input-text card-input__input"
+            type="text" autocomplete="off"
+            placeholder="Nome do Titular"
+            style="font-size: 1.0em; padding: 8px;" />
+        <span id="name-error-message" style="color: red; display: none;">Por favor, insira o nome completo do titular com pelo menos um sobrenome.</span>
+    </p>
+
+    <div class="clear"></div>
+
+    <p class="form-row form-row-first">
+        <label for="card_expiry">
+            Data de Expiração
+            <span class="required">*</span>
+        </label>
+        <div class="card-form__group">
+            <select class="card-input__input -select" id="cardMonth">
+                <option value="" disabled selected>Mês</option>
+                <!-- Options will be inserted here by JavaScript -->
+            </select>
+            <select class="card-input__input -select" id="cardYear">
+                <option value="" disabled selected>Ano</option>
+                <!-- Options will be inserted here by JavaScript -->
+            </select>
+        </div>
+        <input id="card_expiry" name="card_expiry"
+            class="input-text zenithpay-credit-card-form-card-expiry"
+            type="hidden" autocomplete="off" maxlength="4"
+            placeholder="MM/YYYY"
+            style="font-size: 1.0em; padding: 8px;">
+    </p>
+
+    <p class="form-row form-row-last">
+        <label for="card_security_code">
+            Cód de Segurança
+            <span class="required">*</span>
+        </label>
+        <input id="card_security_code" name="card_security_code"
+            class="card-input__input input-text"
+            type="tel" autocomplete="off" maxlength="4"
+            placeholder="••••"
+            style="font-size: 1.0em; padding: 8px;">
+    </p>
+
+    <div class="clear"></div>
+
+    <p class="form-row form-row-wide">
+        <label for="installments">
+            Parcelamento
+            <span class="required">*(Aproximadamente:)</span>
+        </label>
+         <p>
+        <input type="checkbox" id="showTotal" name="showTotal">
+        <label for="showTotal">Mostrar valor total com juros ("opção disponível no painel de configuração') </label>
+    </p>
+        <select class='card-input__input -select' id="installments" name="installments" style="font-size: 1.0em; padding: 8px; width: 100%;">
+            <!-- Installments options will be inserted here -->
+        </select>
+    </p>
+
+    <div class="clear"></div>
+</fieldset></div>
+      </div>
+    </div>
+
+   
+
+    <section class="relative w-full  mt-6 overflow-hidden">
+      <h1
+      class="w-full my-2 px-2 text-5xl font-black leading-tight text-center text-gray-800"
+    >
+      Modelos Exclusivos <span>ZenithPay</span>
+    </h1>
+    <div class="w-full mb-4">
+      <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+    </div>
+      <p class="text-gray-800 mb-8 p-6 text-medium">
+                O plugin [ZenithPay + Woocomerce] possui modelos de cartões de crédito personalizados para sua empresa!
+                <br><br>
+               Toda vez que um usuário abre o checkout, é selecionado aleatóriamente um dos modelos abaixo:
+              </p>
+      <div class="carousel" id="carousel">
+          <div class="carousel-track" id="carousel-track">
+              <!-- Repeat the items to create an infinite loop effect -->
+              <div class="carousel-item">
+                <div class="card-form"> 
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>              </div>
+              
+              
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              
+             
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form"> 
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>              </div>
+              
+              
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              
+             
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form"> 
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/1_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>              </div>
+              
+              
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/4_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/2_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/5_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/3_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              
+             
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/8_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/9_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/6_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/10_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/7_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              <div class="carousel-item">
+                <div class="card-form">
+                  <div class="card-list">
+                      <div class="card-item" id="card-item">
+                          <div class="card-item__side -front">
+                              <div class="card-item__focus" id="focusElement"></div>
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_frente.png">
+                              </div>
+                              <div class="card-item__wrapper">
+                                  <div class="card-item__top">
+                                      <img src="https://zenithpay.s3.us-east-005.backblazeb2.com/chip.png" class="card-item__chip">
+                                      <div class="card-item__type">
+                                          <img id="cardTypeImg" src="" alt="" class="card-item__typeImg">
+                                      </div>
+                                  </div>
+                                  <span for="card_number" class="card-item__number" id="cardNumberLabel">
+                                      #### #### #### ####
+                                  </span>
+                                  <div class="card-item__content">
+                                      <span for="card_name" style="padding-top:0px !important" class="card-item__info" id="cardNameLabel">
+                                          <div class="card-item__holder">Nome Titular</div>
+                                          <div class="card-item__name" id="cardNameDisplay">Nome Completo</div>
+                                      </span>
+                                      <div class="card-item__date" style="padding-top:0px !important" id="cardDate">
+                                          <span for="cardMonth" style="
+              padding-bottom: 0px !important;
+          " class="card-item__dateTitle">Expiração</span>
+                                          <span for="cardMonth" class="card-item__dateItem">
+                                              <span id="cardMonthDisplay">MM</span>
+                                          </span>
+                                          /
+                                          <span for="cardYear" class="card-item__dateItem">
+                                              <span id="cardYearDisplay">AA</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-item__side -back " id="cardBack">
+                              <div class="card-item__cover">
+                                  <img class="card-item__bg2" src="https://zenithpay.s3.us-east-005.backblazeb2.com/11_verso.png">
+                              </div>
+                              <div class="card-item__band"></div>
+                              <div class="card-item__cvv">
+                                  <div class="card-item__cvvTitle">CVV</div>
+                                  <div class="card-item__cvvBand" id="cardCvvDisplay">
+                                      <!-- CVV will be updated here -->
+                                  </div>
+                                  <div class="card-item__type">
+                                      <img id="cardTypeImgBack" src="" class="card-item__typeImg">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>             
+              </div>
+              
+             
+                                  
+      </div>
+    </section>
+  
+    <section class="bg-gray-100 border-b py-8">
+        <div class="container max-w-5xl mx-auto m-8">
+          <h2 class="w-full my-2 px-2 text-5xl font-black leading-tight text-center text-gray-800">Como funciona?</h2>
+          <div class="w-full mb-4">
+            <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+          </div>
+      
+          <div class="flex flex-wrap text-medium">
+            <div class="w-full sm:w-1/2 p-6">
+              <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
+                Pagamentos via PIX e Cartão de Crédito
+              </h3>
+              <p class="text-gray-600 mb-8">
+                O plugin [ZenithPay + Woocomerce] permite que você ofereça opções de pagamento via PIX e cartão de crédito nativamente para seus lojistas no WooCommerce. Com apenas alguns passos o lojista pode configurar os pagamentos!
+                <br><br>
+                O sistema calcula automaticamente os juros, processa os pagamentos e atualiza os pedidos (Após o cadastro do webhook).
+              </p>
+            </div>
+            <div class="w-full sm:w-1/2 p-6 pt-0">
+           <video class="border border-black" src="./metodos.mp4" autoplay loop muted></video>
+            </div>
+          </div>
+      
+          <div class="flex flex-wrap flex-col-reverse sm:flex-row">
+            <div class="w-full sm:w-1/2 p-6 mt-0 pt-0">
+                <img class="border border-black" src="./pluginScreenshot.png" />
+            </div>
+            <div class="w-full sm:w-1/2 p-6 mt-0">
+              <div class="align-middle">
+                <h2 class="text-2xl font-bold mb-4">É só instalar e usar!</h2>
+        <p class="text-lg mb-6">
+            A integração da Gateway ZenithPay é simples e rápida. Após instalar o plugin em uma loja Woocomerce com o checkout para atuar no Brasil, basta acessar as configurações de pagamento do WooCommerce, ativar a forma de pagamento desejada, inserir a chave de API fornecida na conta Zenith e configurar as preferências de pagamento.
+        </p>
+        
+        <h3 class="text-xl font-semibold mb-2">Benefícios:</h3>
+        <ul class="list-disc list-inside mb-6">
+            <li class="mb-2"><strong>Integração Fácil:</strong> A integração da Gateway ZenithPay no WordPress é rápida e direta, basta instalar o plugin e configurar sem complicações.</li>
+            <li class="mb-2"><strong>Configuração Simples:</strong> Basta ativar a forma de pagamento desejada, inserir a chave Secret da API fornecida na conta ZENITH e configurar as preferências de pagamento em poucos passos.</li>
+            <li class="mb-2"><strong>Automatização de Pedidos:</strong> O plugin vem com um endpoint pronto que permite a atualização automática dos pedidos no WooCommerce, caso o pedido seja aprovado ou reembolsado. </li>
+        </ul>
+        
+        <h3 class="text-xl font-semibold mb-2">Como Funciona:</h3>
+        <ol class="list-decimal list-inside mb-6">
+            <li class="mb-2"><strong>Instalação do Plugin:</strong> O lojista acessa os plugins wordpress, clica em <strong>[Adicionar Plugin]</strong> e depois em <strong>[Enviar Plugin]</strong>, então basta clicar em <strong>[Escolher ficheiro]</strong> e selecionar o arquivo <strong>[zenithpay.zip]</strong>, clicar em <strong>[Instalar agora]</strong> e por fim depois que a pagina recarregar basta descer clicar em <strong>[Ativar plugin]</strong></li>
+            <li class="mb-2"><strong>Configuração de Pagamento:</strong> Após a instalação basta acessar as configurações de pagamento do WooCommerce e clicar em Gerenciar na forma de pagamento desejada, então basta  <strong>[inserir a chave Secret de API fornecida na conta Zenith]</strong> clicar na caixa <strong>[Ativar Zenithpay]</strong> e depois em  <strong>[Salvar Alterações]</strong>.</li>
+            <li class="mb-2"><strong>Preferências de Pagamento:</strong> Nas configurações é possível personalizar as preferencias do pagamento conforme for necessário, como descontos em um método de pagamento específico ou o máximo de parcelas que o lojista quer disponibilizar na hora da compra.</li>
+            <li class="mb-2 break-word"><strong>Automatização de Pedidos:</strong> Quando <strong>[ativado]</strong> o plugin cria o endpoint para zenithpay em: <br>[<strong>https://siteexemplo.com/wp-json/zenithpay/v1/processar-pedido/</strong>].<br> Basta criar um webhook na zenithpay para o endpoint após a ativação do plugin e já estará pronto para uso!</li>
+        </ol>
+        
+        <p class="text-lg">
+            Com esta funcionalidade, os lojistas podem facilmente integrar e configurar o plugin [ZenithPay + Woocomerce], proporcionando uma experiência de pagamento eficiente e automatizada para seus clientes.
+        </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap">
+            <div class="w-full sm:w-1/2 p-6">
+              <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
+               Tela para pagamentos via PIX
+              </h3>
+        <p class="text-lg mb-6">
+            Após a instalação do plugin, a integração com o PIX é feita automaticamente na página de obrigado. No momento em que o cliente finaliza a compra utilizando o método PIX, ele é imediatamente redirecionado para uma tela de pagamento com o QR code PIX. Resumidamente, depois da instalação e configuração, o plugin já está pronto para o uso do lojista.
+        </p>
+        
+        <h3 class="text-xl font-semibold mb-2">Benefícios:</h3>
+        <ul class="list-disc list-inside mb-6">
+            <li class="mb-2"><strong>Integração Automática:</strong> A integração com o PIX é configurada automaticamente após a instalação, facilitando o processo para o lojista.</li>
+            <li class="mb-2"><strong>Redirecionamento Imediato:</strong> Após a finalização da compra, o cliente é redirecionado automaticamente para uma tela com o QR code PIX, simplificando o pagamento.</li>
+            <li class="mb-2"><strong>Pronto para Uso:</strong> Após a instalação e configuração inicial, o plugin está pronto para uso, permitindo que os lojistas aceitem pagamentos via PIX sem complicações adicionais.</li>
+        </ul>
+        
+        <h3 class="text-xl font-semibold mb-2">Como Funciona:</h3>
+        <ol class="list-decimal list-inside mb-6">
+            <li class="mb-2"><strong>Configuração Automática:</strong> Após a configuração do método de pagamento via PIX, a tela de pagamento estará pronta para uso.</li>
+            <li class="mb-2"><strong>Redirecionamento para Pagamento:</strong> Após a finalização da compra com o método PIX, o cliente é redirecionado para uma tela com o QR code PIX para concluir o pagamento.</li>
+        </ol>
+        
+      Exemplo:
+            </div>
+            <div class="w-full sm:w-1/2 p-6 pt-0">
+                <img class="border border-black" src="./pixScreenshot.png" />
+            </div>
+          </div>
+          <div class="flex flex-wrap flex-col-reverse sm:flex-row">
+            <div class="w-full sm:w-1/2 p-6 mt-0 pt-0">
+              <video class="border border-black" src="./porcentagem.mp4" autoplay loop muted></video>
+              <video class="border border-black" src="./desconto.mp4" autoplay loop muted></video>
+
+            </div>
+            <div class="w-full sm:w-1/2 p-6 mt-0">
+              <div class="align-middle">
+                <h2 class="text-2xl font-bold mb-4">Configuração de Desconto Personalizado para cada Método de Pagamento</h2>
+                <p class="text-lg mb-6">
+                    Através do gerenciamento de cada método de pagamento, o lojista pode escolher oferecer uma porcentagem de desconto no pagamento escolhido. Ou simplesmente deixar 0 para não oferecer descontos.
+                </p>
+                
+                <h3 class="text-xl font-semibold mb-2">Benefícios:</h3>
+                <ul class="list-disc list-inside mb-6">
+                    <li class="mb-2"><strong>Flexibilidade Promocional:</strong> Permite que os lojistas ajustem dinamicamente as porcentagens de desconto, facilitando a criação de promoções sazonais, campanhas de marketing específicas ou incentivos para métodos de pagamento preferenciais.</li>
+                    <li class="mb-2"><strong>Aumento nas Vendas:</strong> Ao oferecer descontos atrativos, os lojistas podem incentivar os clientes a optarem por métodos de pagamento específicos, potencialmente aumentando a conversão e as vendas gerais.</li>
+                    <li class="mb-2"><strong>Melhoria na Experiência do Cliente:</strong> Oferecer descontos claramente aplicados no checkout melhora a experiência de compra, aumentando a satisfação do cliente e reduzindo a taxa de abandono do carrinho.</li>
+                </ul>
+                
+                <h3 class="text-xl font-semibold mb-2">Como Funciona:</h3>
+                <ol class="list-decimal list-inside mb-6">
+                    <li class="mb-2"><strong>Configuração Simples:</strong> Nas configurações do WooCommerce, os lojistas podem definir a porcentagem de desconto desejada individualmente para cada método de pagamento disponível, como Cartão de Crédito ou PIX.</li>
+                    <li class="mb-2"><strong>Aplicação Automática:</strong> O desconto configurado é automaticamente aplicado ao subtotal dos produtos durante o processo de checkout, sendo claramente exibido ao cliente.</li>
+                    <li class="mb-2"><strong>Indicador de Desconto:</strong> Um indicador visual no checkout mostra ao cliente a porcentagem exata do desconto aplicado, destacando o benefício de usar o método de pagamento selecionado.</li>
+                </ol>
+                
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap">
+            <div class="w-full sm:w-1/2 p-6">
+              <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
+               Tratamento de erros
+              </h3>
+        <p class="text-lg mb-6">
+            Durante o processo de pagamento, o sistema valida os dados do cliente e caso algum erro ocorra no processo, é imediatamente mostrado para o cliente.
+        </p>
+   <p>Exemplo:</p>
+            </div>
+            <div class="w-full sm:w-1/2 p-6 pt-0">
+                <img class="border border-black" src="./erro_cpf.png" />
+                <img class="border border-black" src="./erro_expiração.png" />
+            </div>
+       
+          </div>
+        </div>
+      </section>
+      <section class="bg-white border-b py-8">
+        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+          <h2 class="w-full my-2 px-2 text-5xl font-black leading-tight text-center text-gray-800">
+            Vantagens de Adquirir o Plugin
+          </h2>
+          <div class="w-full mb-4">
+            <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+          </div>
+      
+          <!-- Vantagem 1 -->
+          <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+            <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+              <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
+                  AUMENTO DA BASE DE CLIENTES
+                </p>
+                <div class="w-full font-bold text-xl text-gray-800 px-6">
+                  Atraia Lojistas do WooCommerce
+                </div>
+                <p class="text-gray-600 text-base px-6 mb-5">
+                  Expanda a base de clientes, captando também lojistas que utilizam WooCommerce, aumentando a relevância da ZenithPay no mercado e captando novos lojistas potenciais, gerando um fluxo de vendas maior.
+                </p>
+              </a>
+            </div>
+          </div>
+      
+          <!-- Vantagem 2 -->
+          <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+            <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+              <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
+                  NOVAS FONTES DE RECEITA
+                </p>
+                <div class="w-full font-bold text-xl text-gray-800 px-6">
+                  Cobranças Flexíveis
+                </div>
+                <p class="text-gray-600 text-base px-6 mb-5">
+                  A aquisição da licença do sistema oferece livre distribuição para ZenithPay, permitindo-o utilizar para quaisquer finalidades como cobrar uma taxa adicional dos lojistas pela utilização do plugin ou até um valor mensal pelo uso, criando um novo plano de pagamento que inclui o fornecimento do plugin e gerando novas possibilidades de receita para a ZenithPay se nenhum custo adicional.
+                </p>
+              </a>
+            </div>
+          </div>
+      
+          <!-- Vantagem 3 -->
+          <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+            <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+              <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
+                  DIFERENCIAÇÃO COMPETITIVA
+                </p>
+                <div class="w-full font-bold text-xl text-gray-800 px-6">
+                  Esteja à Frente da Concorrência
+                </div>
+                <p class="text-gray-600 text-base px-6 mb-5">
+                  Ofereça uma solução completa e nativa para WooCommerce com a ZenithPay, destacando-se no mercado e superando a concorrência com funcionalidades avançadas, como descontos personalizados, fácil instalação e gestão do sistema, facilitando a vida do lojista.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-white border-t py-8">
+        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+            <h2 class="w-full my-2 px-2 text-5xl font-black leading-tight text-center text-gray-800">
+                Termos de Uso
+            </h2>
+            <div class="w-full mb-4">
+                <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+            </div>
+    
+            <div class="w-full p-6">
+                <div class="bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">1. Fornecimento do Software</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Este software é fornecido "como está". Não oferecemos garantias expressas ou implícitas sobre a funcionalidade, desempenho ou adequação a um propósito específico. No entanto, comprometemo-nos a realizar atualizações para corrigir erros identificados até que o sistema atinja seu pleno funcionamento.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">2. Uso e Distribuição</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            O plugin é destinado exclusivamente ao uso e distribuição pela ZenithPay, permitindo que os lojistas utilizem a integração ZenithPay com WooCommerce. A edição ou modificação do código-fonte é estritamente proibida.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">3. Suporte Técnico</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Caso sejam realizadas alterações no código por parte da ZenithPay ou seus clientes, não forneceremos suporte ou assistência técnica. É responsabilidade da ZenithPay manter a integridade do código conforme disponibilizado.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">4. Propriedade Intelectual</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Todos os direitos de propriedade intelectual sobre o software permanecem conosco, nos reservando o direito de criar sistemas semelhantes, desde que não utilizem quaisquer dados relacionados à ZenithPay. O uso não autorizado, reprodução, distribuição ou modificação do software constitui violação desses direitos.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">5. Limitação de Responsabilidade</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Em nenhuma circunstância seremos responsáveis por quaisquer danos diretos, indiretos, incidentais, especiais ou consequentes que resultem do uso ou da incapacidade de usar o software.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">6. Confidencialidade</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Qualquer informação confidencial compartilhada entre as partes será mantida em sigilo e não será divulgada a terceiros sem o consentimento prévio por escrito da parte divulgadora.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">7. Aceitação dos Termos</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Ao adquirir a licença deste software, a ZenithPay concorda com estes termos e condições. Qualquer violação dos termos poderá resultar na suspensão do suporte e outras ações conforme necessário.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">8. Alterações nos Termos de Uso</h3>
+                        <p class="text-gray-600 text-base mb-5">
+                            Os termos de uso podem ser alterados a qualquer momento, com um aviso prévio, caso haja necessidade. A aceitação dos novos termos é necessária para a continuidade do uso e distribuição do software após tais modificações.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+      
+      
+      
+  <script>
+
+$(document).ready(function(){
+window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+setTimeout(function(){$('body').css('overflow', 'hidden');},100);
+setTimeout(function(){$('.preloader').fadeOut();
+$('.preloader').css('overflow', 'hidden');
+$('body').css('overflowY', 'scroll');
+window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+
+},4000)
+
+    
+});
+
+  </script>
+  
+   <style>
+    .carousel {
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+        position: relative;
+    }
+   .carousel-item {
+    flex: 0 0 auto;
+    transition: transform 1s ease;
+    margin-right: 30px;
+    min-width: 355px;
+}
+    .carousel-track {
+        display: flex;
+        animation: scroll 300s linear infinite;
+    }
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
+
+    <script src="./script.js"></script>
+<style>@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700|Source+Sans+Pro:400,600,700&display=swap);.card-form__col:last-child,.card-form__group .card-input__input:last-child{margin-right:0!important}.card-item__bg,.card-item__chip,.card-item__typeImg{max-height:100%!important}.card-form__button,.card-item__date,.card-item__info,.card-item__number{cursor:pointer!important}.card-form__button,.card-input__label,.card-item__cvvTitle,.card-item__info,.card-item__number{font-weight:500!important}.payment_box{background:0 0!important}.wrapper{width:-webkit-fill-available}.card_wrapper{min-height:100vh!important;display:flex!important;padding:50px 15px!important}@media screen and (max-width:700px),(max-height:500px){.card_wrapper{flex-wrap:wrap!important;flex-direction:column!important}}.card-form{max-width:570px!important;margin:auto!important;width:100%!important}@media screen and (max-width:576px){.card-form{margin:0 auto!important}}.card-item,.card-item__date,.card-item__type{margin-left:auto!important}.card-form__inner{background:#fff!important;box-shadow:0 30px 60px 0 rgba(90,116,148,.4)!important;border-radius:10px!important;padding:180px 35px 35px!important}@media screen and (max-width:480px){.card-form__inner{padding:165px 25px 25px!important}}.card-form__row{display:flex!important;align-items:flex-start!important}.card-form__col{flex:auto!important;margin-right:35px!important}.card-form__col.-cvv{max-width:150px!important}.card-form__group{display:flex!important;align-items:flex-start!important;flex-wrap:wrap!important}.card-form__group .card-input__input{flex:1!important;margin-right:15px!important}.card-form__button{width:100%!important;height:55px!important;background:#2364d2!important;border:none!important;border-radius:5px!important;font-size:22px!important;font-family:"Source Sans Pro",sans-serif!important;box-shadow:3px 10px 20px 0 rgba(35,100,210,.3)!important;color:#fff!important;margin-top:20px!important}.card-item{max-width:350px!important;height:235px!important;margin-right:auto!important;position:relative!important;z-index:2!important;width:100%!important}.card-item__cover,.card-item__cover:after,.card-item__focus,.card-item__focus:after,.card-item__side.-back{position:absolute!important;left:0!important;top:0!important;width:100%!important}@media screen and (max-width:480px){.card-form__row{flex-wrap:wrap!important}.card-form__col{margin-right:0!important;flex:unset!important;width:100%!important;margin-bottom:20px!important}.card-form__col:last-child{margin-bottom:0!important}.card-form__col.-cvv{max-width:initial!important}.card-form__button{margin-top:10px!important}.card-item{max-width::-webkit-fill-available!important;height:185px!important}}.card-item.-active .card-item__side.-front{transform:perspective(1000px) rotateY(180deg) rotateX(0) rotateZ(0)!important}.card-item.-active .card-item__side.-back{transform:perspective(1000px) rotateY(0) rotateX(0) rotateZ(0)!important}.card-item__focus{z-index:3!important;border-radius:5px!important;height:100%!important;transition:.35s cubic-bezier(.71, .03, .56, .85)!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important;border:2px solid rgba(255,255,255,.65)!important}.card-item__cover,.card-item__side{border-radius:15px!important;height:100%!important;overflow:hidden!important}.card-item__focus:after{content:""!important;background:#08142f!important;height:100%!important;border-radius:5px!important;filter:blur(25px)!important;opacity:.5!important}.card-item__focus.-active{opacity:1!important}.card-item__cvv .card-item__type,.card-item__dateTitle,.card-item__holder{opacity:.85!important}.card-item__side{box-shadow:0 20px 60px 0 rgba(14,42,90,.55)!important;transform:perspective(2000px) rotateY(0) rotateX(0) rotate(0)!important;transform-style:preserve-3d!important;transition:.8s cubic-bezier(.71, .03, .56, .85)!important;backface-visibility:hidden!important}.card-item__side.-back{transform:perspective(2000px) rotateY(-180deg) rotateX(0) rotate(0)!important;z-index:-1!important;padding:0!important;height:100%!important}.card-item__side.-back .card-item__cover{transform:rotateY(-180deg)!important}.card-item__bg{max-width:100%!important;display:block!important;height:100%!important;width:100%!important;object-fit:cover!important}.card-item__bg2{max-width:100%!important;display:block!important;height:100%!important;width:100%!important;object-fit:cover!important}.card-item__cover{background-color:#1c1d27!important}.card-item__cover:after{content:""!important;height:100%!important;background:rgba(6,2,29,.4)!important}.card-item__top{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;margin-bottom:30px!important;padding:0 10px!important}@media screen and (max-width:480px){.card-item__top{margin-bottom:30px!important}}.card-item__chip{width:60px!important}@media screen and (max-width:480px){.card-item__chip{width:50px!important}}.card-item__type{height:45px!important;position:relative!important;display:flex!important;justify-content:flex-end!important;max-width:100px!important;width:100%!important}@media screen and (max-width:480px){.card-item__type{height:40px!important;max-width:90px!important}}.card-item__typeImg{max-width:100%!important;object-fit:contain!important;object-position:top right!important}.card-item__info{color:#fff!important;width:100%!important;max-width:calc(100% - 135px)!important;padding:10px 15px!important;display:block!important}.card-item__dateItem span,.card-item__nameItem,.card-item__number,.card-item__numberItem{display:inline-block!important}.card-item__holder{font-size:13px!important;margin-bottom:6px!important}.card-item__wrapper{font-family:"Source Code Pro",monospace!important;padding:25px 15px!important;position:relative!important;z-index:4!important;height:100%!important;text-shadow:1px 1px 2px #000,1px 1px 2px #000,1px 1px 2px #000,1px 1px 2px #000,1px 1px 2px #000!important;user-select:none!important}.card-item__band,.card-item__cvv{z-index:2!important;position:relative!important}.card-item__name{font-size:18px!important;line-height:1!important;white-space:nowrap!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;text-transform:uppercase!important}.card-item__nameItem{min-width:8px!important;position:relative!important}.card-item__number{line-height:1!important;color:#fff!important;font-size:20px!important;padding:0 15px!important}@media screen and (max-width:480px){.card-item__info{padding:10px!important}.card-item__holder{font-size:14px!important;margin-bottom:5px!important}.card-item__wrapper{padding:20px 20px 10px 8px!important}.card-item__name{font-size:14px!important}.card-item__number{font-size:18px!important;margin-bottom:0!important;padding:0 10px!important}}.card-item__numberItem{width:16px!important}.card-item__numberItem.-active{width:30px!important}@media screen and (max-width:480px){.card-item__numberItem{width:13px!important}.card-item__numberItem.-active{width:14px!important}}.card-item__content{color:#fff!important;display:flex!important;align-items:flex-start!important}.card-item__date{flex-wrap:wrap!important;font-size:18px!important;padding:0!important;display:inline-flex!important;width:80px!important;white-space:nowrap!important;flex-shrink:0!important}.card-item__dateItem{position:relative!important}.card-item__dateItem span{width:22px!important}.card-item__dateTitle{font-size:13px!important;padding-bottom:6px!important;width:100%!important}.slide-fade-right-enter,.slide-fade-right-leave-to,.slide-fade-up-enter,.slide-fade-up-leave-to{opacity:0!important;pointer-events:none!important}.card-item__band{background:rgba(0,0,19,.8)!important;width:100%!important;height:50px!important;margin-top:30px!important}.card-input__input,.card-item__cvvBand{background:#fff!important;color:#1a3b5d!important}@media screen and (max-width:480px){.card-item__date{font-size:14px!important}.card-item__dateTitle{font-size:14px!important;padding-bottom:5px!important}.card-item__band{margin-top:20px!important}}.card-item__cvv{text-align:right!important;padding:15px!important}.card-item__cvvTitle{padding-right:10px!important;font-size:15px!important;color:#fff!important;margin-bottom:5px!important}.card-item__cvvBand{height:45px!important;margin-bottom:30px!important;text-align:right!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;padding-right:10px!important;font-size:18px!important;border-radius:4px!important;box-shadow:0 10px 20px -7px rgba(32,56,117,.35)!important}@media screen and (max-width:480px){.card-item__cvvBand{height:40px!important;margin-bottom:20px!important}.card-list{margin-bottom:30px!important;margin-top:30px!important}}@media screen and (max-width:360px){.card-form__inner{padding:165px 15px 15px!important}.card-item{height:210px!important}.card-item__top{margin-bottom:30px!important}.card-item__chip{width:40px!important}.card-item__type{height:30px!important}.card-item__number{font-size:16px!important;margin-bottom:0!important;padding:0 10px!important}.card-item__numberItem{width:12px!important}.card-item__numberItem.-active{width:8px!important}.card-item__band{height:40px!important;margin-top:10px!important}.card-item__cvv{padding:10px 15px!important}.card-item__cvvBand{margin-bottom:15px!important}}.card-list{margin-bottom:30px!important;margin-top:30px!important}.card-input{margin-bottom:20px!important}.card-input__label{font-size:14px!important;margin-bottom:5px!important;color:#1a3b5d!important;width:100%!important;display:block!important;user-select:none!important}.card-input__input{width:100%!important;height:50px!important;border-radius:5px!important;box-shadow:none!important;border:1px solid #ced6e0!important;transition:.3s ease-in-out!important;font-size:16px!important;padding:5px 15px!important;font-family:"Source Sans Pro",sans-serif!important}.card-input__input:focus,.card-input__input:hover{border-color:#3d9cff!important}.card-input__input:focus{box-shadow:0 10px 20px -13px rgba(32,56,117,.35)!important}.card-input__input.-select{-webkit-appearance:none!important;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUxJREFUeNrM1sEJwkAQBdCsngXPHsQO9O5FS7AAMVYgdqAd2IGCDWgFnryLFQiCZ8EGnJUNimiyM/tnk4HNEAg/8y6ZmMRVqz9eUJvRaSbvutCZ347bXVJy/ZnvTmdJ862Me+hAbZCTs6GHpyUi1tTSvPnqTpoWZPUa7W7ncT3vK4h4zVejy8QzM3WhVUO8ykI6jOxoGA4ig3BLHcNFSCGqGAkig2yqgpEiMsjSfY9LxYQg7L6r0X6wS29YJiYQYecemY+wHrXD1+bklGhpAhBDeu/JfIVGxaAQ9sb8CI+CQSJ+QmJg0Ii/EE2MBiIXooHRQhRCkBhNhBcEhLkwf05ZCG8ICCOpk0MULmvDSY2M8UawIRExLIQIEgHDRoghihgRIgiigBEjgiFATBACAgFgghEwSAAGgoBCBBgYAg5hYKAIFYgHBo6w9RRgAFfy160QuV8NAAAAAElFTkSuQmCC')!important;background-size:12px!important;background-position:90% center!important;background-repeat:no-repeat!important;padding-right:30px!important}.slide-fade-right-enter-active,.slide-fade-up-enter-active{transition:.25s ease-in-out 0.1s!important;position:relative!important}.slide-fade-right-leave-active,.slide-fade-up-leave-active{transition:.25s ease-in-out!important;position:absolute!important}.slide-fade-up-enter{transform:translateY(15px)!important}.slide-fade-up-leave-to{transform:translateY(-15px)!important}.slide-fade-right-enter{transform:translateX(10px) rotate(45deg)!important}.slide-fade-right-leave-to{transform:translateX(-10px) rotate(45deg)!important}</style>
+
+  </body>
+</html>
